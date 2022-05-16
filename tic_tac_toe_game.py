@@ -1,4 +1,6 @@
 from curses.panel import bottom_panel
+from gc import collect
+from multiprocessing.sharedctypes import Value
 from random import randint
 import math
 
@@ -56,6 +58,42 @@ class tic_tac_toe_game:
     # bot difficulty hard ai function. Uses the minmax algorithm. If bot's turn, maximizes. If player's turn, minimizes. 
     def bot_ai(self):
         def min_max(board, symbol):
+            print(board)
+            game_status = self.check_board(board)
+            if (game_status == "You win!"):
+                print("w")
+                return [-1, 0, 0]
+            elif (game_status == "You lost :("):
+                print("l")
+                return [1, 0, 0]
+            elif (game_status == "Draw"):
+                print("d")
+                return [0, 0, 0]
+            best_info = [(-math.inf if symbol=="O" else math.inf), 0, 0]
+            next_symbol = "X" if symbol=="O" else "O"
+            board_copy = [row[:] for row in board]
+            for row in range(3):
+                for col in range(3):
+                    if (board[row][col] == " "):
+                        print("main")
+                        board_copy[row][col] = symbol
+                        cur_info = min_max(board_copy, next_symbol)
+                        board_copy[row][col] = " "
+                        cur_info = [cur_info[0], row, col]
+                        print("c", symbol, cur_info)
+                        if symbol == "O":
+                            if (max(cur_info[0], best_info[0]) == cur_info[0]):
+                                best_info = cur_info[:]
+                                print("b", symbol, best_info)
+                        else:
+                            if (min(cur_info[0], best_info[0]) == cur_info[0]):
+                                best_info = cur_info[:] 
+                                print("b", symbol, best_info)
+            return best_info
+                        
+        """
+        def min_max(board, symbol):
+            print(board)
             best_info = [(-math.inf if symbol=="O" else math.inf), 0, 0]
             for row in range(3):
                 for col in range(3):
@@ -63,21 +101,35 @@ class tic_tac_toe_game:
                         board_copy = board[:]
                         board_copy[row][col] = symbol
                         game_status = self.check_board(board_copy)
-                        if (game_status == "You win!"):
-                            cur_info =  [-1, row, col]
-                        elif (game_status == "You lose :("):
-                            cur_info = [1, row, col]
-                        elif (game_status == "Draw"):
-                            cur_info = [0, row, col]
-                        else:
+                        if (game_status == "nothing"):
+                            print("accessed")
                             next_symbol = "X" if symbol=="O" else "O"
                             cur_info = min_max(board_copy, next_symbol)
-                        if symbol == "O":
-                            if (max(cur_info[0], best_info[0]) == cur_info[0]):
-                                best_info = cur_info[:]
-                        else:
-                            if (min(cur_info[0], best_info[0]) == cur_info[0]):
-                                best_info = cur_info[:]
+                            print(cur_info)
+                            if symbol == "O":
+                                if (max(cur_info[0], best_info[0]) == cur_info[0]):
+                                    best_info = cur_info[:]
+                            else:
+                                if (min(cur_info[0], best_info[0]) == cur_info[0]):
+                                    best_info = cur_info[:]   
+                        elif (game_status == "You win!"):
+                            print("this?")
+                            print(board_copy)
+                            cur_info = [-1, row, col]
+                            return cur_info
+                        elif (game_status == "You lose :("):
+                            cur_info = [1, row, col]
+                            return cur_info
+                        elif (game_status == "Draw"):
+                            cur_info = [0, row, col]
+                            return cur_info                
+            return best_info
+            """
+
+        board = [row[:] for row in self.board]
+        best_info = min_max(board, "O")
+        print(best_info[1], best_info[2])
+        return best_info[1], best_info[2]
 
     # checks the status of the game
     def check_board(self, board):
