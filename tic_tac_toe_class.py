@@ -1,8 +1,8 @@
-
 from random import randint
 import math
 
-class tic_tac_toe_game:
+
+class tic_tac_toe:
 
     def __init__(self):
         self.board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
@@ -229,9 +229,5 @@ class tic_tac_toe_game:
             score = self.check_board(self.board, self.player1, self.player2)
             moves_left = self.check_moves_left(self.board)
         print(self.game_status(score, moves_left, self.player2_type))
-
-
-game = tic_tac_toe_game()
-game.start_game()
 
 
