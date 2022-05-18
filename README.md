@@ -2,42 +2,37 @@
 
 This is the official repository for my Tic-Tac-Toe Game. 
 
-I have created three versions of this trading bot: 
-1) Trading bot that uses your real money to trade cryptocurrencies in Coinbase Pro(__tb_cb_v1.py__)
-2) Trading bot that uses paper money or fake money to simulate the actual trading bot (__trading_bot_paper_money.py__)
-3) Web version of paper money trading bot ([link](https://tayzashwe.github.io/crypto_trading_bot_repo/))
-
 ### Table of Contents ###
-1) Why I developed this trading bot
-2) How my trading bot works
-3) Results
-4) How to use the first version of bot (uses actual money)
-5) How to use the second version of bot (uses fake money)
-6) Technologies involved 
+1) Why I developed this tic-tac-toe game
+2) How the game works
+3) How the minimax algorithm works
+4) Using PyQt5 and PyInstaller
+5) Technologies involved 
 
 ## WHY I DEVELOPED THIS TRADING BOT ##
 
-When I started off trading cryptocurrencies as a beginner, I noticed that I missed out on important price movements when I was away from the trading screen, especially while I was asleep. To combat this, I developed this trading bot to imitate my behvavior as if I were looking at the trading screen at all times. 
+It's a pretty simple but fun game and I was initially just interested in how to create an algorithm that would be hard to beat. So, I coded it and even added a user interface!
 
 ## HOW MY TRADING BOT WORKS ##
 
-My trading bot's algorithm is simple. It first sends a __market buy order__ and sets a __sell price__ below the price at which the cryptocurrency was bought. The __sell price__ is determined by the __gap__ which is a predetermined input by the user. If the cryptocurrency's price rises and the difference between the price and the __sell price__ is more than the __gap__, the __sell price__ will be updated to a higher price. If the cryptocurrency's price drops, the __sell price__ doesn't move. If the __sell price__ is hit, a __market sell order__ is sent and a __buy price__ is set to the former __sell price__. If cryptocurrency's price drops, the __buy price__ will maintain a difference of the __gap__ similar to how the __sell price__ changes. If the price moves up again, the __buy price__ doesn't move. If the __buy price__ is hit, a __market buy order__ is sent and the sell price is set to the __buy price__. The bot, in essence, is supposed to try to __"buy low, sell high."__
+You can play against three kinds of opponents:
+* Player 2. Just takes in another input from user.
+* Easy Bot. Randomizes the next move.
+* Hard Bot. Uses the minimax algorithm to find optimal move.
 
-[Demonstration video.](https://youtu.be/m4KDKBe5BOg)
+[Demonstration video.](https://youtu.be/EiNxiaXhf8w)
 
-## RESULTS ##
+## HOW THE MINIMAX ALGORITHM WORKS ##
 
-To assess whether this bot is effective, I compared it to the profit gained from just buying a certain amount of cryptocurrency at one point in time, without using the bot. You can think of this strategy as just simply buying and holding. 
+The minimax algorithm is a recursive algorithm that simulates every possible move. The score that is returned when I win would be 1 and the score that is returned when my opponent wins is -1. The score is 0 when nobody has won yet and it is not a draw. We will refer to the number of moves as depth. The algorithm tries every available move at one depth and if it is my turn, picks the move with the highest score. The algorithm picks the lowest score for if it is my opponent's turn. The idea is that the algorithm picks the best move for me and the best move for the opponent since the lowest score is the best score for my opponent. It does this until all possible moves are calculated. If there are multiple highest scores, it arbitrarily picks a highest score. 
 
-The trading bot __outperforms__ the mentioned strategy __sometimes__ and __underperforms__ sometimes. The trading bot __excels__ at specific price movement patterns. The trading bot does well in markets with __large swings__ but does poorly in __sideways markets__ (markets where the price moves very little between a certain range). This is because the __sell price__ and __buy price__ gets constantly hit and because __market orders__ buy or sell below the optimal price (it prioritizes the filling of an order over the best price), you lose a bit of the total value everytime a __market order__ is sent. In a __sideways market__, the __buy price__ and __sell price__ get constantly hit which slowly causes you to lose money. The performance of the bot also depends on the input of the __gap__. 
+## USING PYQT5 AND PYINSTALLER ##
 
-Having said the above, after numerous trials, the trading bot seems to __outperform__ the general buying and holding strategy __more often__ than it __underperforms__. The biggest __indicator of success__ is how much value is lost with the __market orders__. 
-
-## HOW TO USE THE FIRST VERSION OF BOT (USES ACTUAL MONEY) ##
-
-For the first version that uses actual money, you can enter your information in __config_v1.txt__. This only works with Coinbase Pro. Be advised that this information is sensitive. The information includes your API key, API secret key, passphrase, product id, the gap, and the amount of money to use. 
-
-Run __tb_cb_v1.py__. Updates on orders and your total value will appear whenever a __market order__ is sent. To end the program, press __CTRL+C__. A prompt will appear asking if you want to send a __market sell order__ before exiting or not. Enter what you want to do and the program will end. After the program ends, the information of the session is stored in __data_v1.txt__. The program will use this data when you run the program again to continue with the same conditions as when the program last ended. Make sure to copy __data_backup.txt__'s content into __data_v1.txt__ before running the program if you want to start new. 
+The first version I created used the terminal for user interface. I then switched to PyQt5. 
+1) Design the windows in designer. This is PyQt5's drag-and-drop style application that allows you to build the interface. 
+2) Save the design as a .ui file.
+3) Convert the .ui file into a python file with the following command:
+    pyuic5 -x filename.ui -o filename.py
 
 ## HOW TO USE THE SECOND VERSION OF BOT (USES PAPER MONEY) ##
 
