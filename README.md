@@ -29,32 +29,31 @@ The minimax algorithm is a recursive algorithm that simulates every possible mov
 ## USING PYQT5 AND PYINSTALLER ##
 
 The first version I created used the terminal for user interface. I then switched to PyQt5. 
-1) Design the windows in designer. This is PyQt5's drag-and-drop style application that allows you to build the interface. 
-2) Save the design as a .ui file.
-3) Convert the .ui file into a python file with the following command:
+1) Download PyQt5
+```
+pip install pyqt5
+pip install pyqt5-tools
+```
+2) Design the windows in designer. The app can be found inside the site-packages folder inside your python folder. This is PyQt5's drag-and-drop style application that allows you to build the interface. 
+3) Save the design as a .ui file.
+4) Convert the .ui file into a python file with the following command:
 ```
 pyuic5 -x filename.ui -o filename.py
 ```
-
-## HOW TO USE THE SECOND VERSION OF BOT (USES PAPER MONEY) ##
-
-For the second version that uses paper money (fake money), you have more control over how you want to simulate actual trading. In __trading_bot_paper_money_config.txt__, you can enter the cryptocurrency to trade, the __gap__, the amount of money to use, the start and end dates, the time range (days, hours, minutes), and the percentage of loss incurred from sending __market orders__. After inputting this information, run __trading_bot_paper_money.py__. 
-
-The net profit gained from using the bot and the net profit gained from the normal strategy will be displayed along with a matlibplot plot of the results. 
-* Yellow line - cryptocurrency price
-* Orange line - total value of money and the cryptocurrency from using the trading bot
-* Pink line -  total value of money and the cryptocurrency without using the trading bot
-* Blue line - the buy/sell price levels
-* Red dot - the sell price
-* Green dot - the buy price
-
-A simple rule to remember is that the trading bot has outperformed the normal strategy if the orange line ends at a higher price than the pink line. 
+5) Edit the python file to add functionality. 
+6) Download PyInstaller
+```
+pip install pyinstaller
+```
+7) Convert the python file into an executable file. Not that this converts to an executable file only compatible with your operating system. I used linux, so the executable file in this repository is only compatible with linux. Also note that the file size may be large since it adds all of PyQt5 into the executable file. There is no way around this issue at the moment.
+```
+pyinstaller --onefile filename.py
+```
+Now will you have the executable file! 
 
 ## TECHNOLOGIES INVOLVED ##
 
-* Python (for the versions 1 and 2)
-* Matplotlib (for the version 2)
-* [Coinbase Pro API](https://github.com/danpaquin/coinbasepro-python) (for the version 1) 
-* [Cryptocompare API](https://github.com/lagerfeuer/cryptocompare) (for the versions 2 and 3) 
-* [Chart.js](https://www.chartjs.org/) (for version 3)
+* Python 
+* [PyQt5](https://pypi.org/project/PyQt5/)
+* [PyInstaller](https://pyinstaller.org/en/stable/) 
 
