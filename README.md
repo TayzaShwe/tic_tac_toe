@@ -32,7 +32,9 @@ The first version I created used the terminal for user interface. I then switche
 1) Design the windows in designer. This is PyQt5's drag-and-drop style application that allows you to build the interface. 
 2) Save the design as a .ui file.
 3) Convert the .ui file into a python file with the following command:
-    pyuic5 -x filename.ui -o filename.py
+```
+pyuic5 -x filename.ui -o filename.py
+```
 
 ## HOW TO USE THE SECOND VERSION OF BOT (USES PAPER MONEY) ##
 
